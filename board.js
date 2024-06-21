@@ -2,14 +2,28 @@ var ship = require("./ship");
 
 const rows = 10;
 const columns = 10;
+const ship_ids = {
+  carrier: 1,
+  battleship: 2,
+  cruiser: 3,
+  submarine: 4,
+  destroyer: 5,
+};
+const ship_names = {
+  1: "carrier",
+  2: "battleship",
+  3: "cruiser",
+  4: "submarine",
+  5: "destroyer",
+};
 
 function createBoard() {
   //0,0 is bottom left
   var board = Array(rows)
     .fill()
-    .map(() => Array(columns).fill(0)); // 0 = empty, 1 = ship, 2 = ship hit, -1 = miss
+    .map(() => Array(columns).fill(0)); //0 = empty, 1 = carrier, 2 = battleship, 3 = cruiser, 4 = sub, 5 = destroyer
   const getBoard = () => board;
-
+  //TODO fill an array same way, once selected as an attack change 0 to 1 or -1 to track status
   var ships = [];
   const placeShip = (name, x, y, orientation) => {
     if (ships.some((el) => el.name === name)) {
@@ -28,13 +42,25 @@ function createBoard() {
       if (board[newCoord[0]][newCoord[1]] != 0) {
         throw new Error("Attempted to place ship on occupied grid");
       } else {
-        board[newCoord[0]][newCoord[1]] = 1;
+        board[newCoord[0]][newCoord[1]] = ship_ids[name];
         shipCoords.push(newCoord);
       }
     }
   };
+  const getShips = () => ships;
 
-  return { getBoard, placeShip };
+  const receiveAttack = (coords) => {
+    if (board[coords[0]][coords[1]] == 0) {
+      return false;
+    } else {
+      let hitShip = ships.find(
+        (el) => el.name == ship_names[board[coords[0]][coords[1]]]
+      );
+      hitShip.hit();
+    }
+  };
+
+  return { getBoard, placeShip, getShips, receiveAttack };
 }
 
 exports.createBoard = createBoard;

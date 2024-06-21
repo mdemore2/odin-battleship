@@ -8,7 +8,7 @@ beforeAll(() => {
 
 it("placesShip", () => {
   testBoard.placeShip("cruiser", 0, 0, 0);
-  expect(testBoard.getBoard()[0][0]).toBe(1);
+  expect(testBoard.getBoard()[0][0]).toBe(3);
 });
 
 it("doesntOverlap", () => {
@@ -21,4 +21,11 @@ it("doesntDuplicateShips", () => {
   expect(() => {
     testBoard.placeShip("cruiser", 0, 5, 90);
   }).toThrowError("Attempted to create multiple ships of same type");
+});
+
+it("receivesHit", () => {
+  testBoard.receiveAttack([0, 0]);
+  let ships = testBoard.getShips();
+  let hitShip = ships.find((el) => el.name == "cruiser");
+  expect(hitShip.getHits()).toBe(1);
 });
