@@ -19,7 +19,20 @@ function createShip(name) {
       throw new Error("Unknown ship name: " + name);
       break;
   }
-  return { name, length };
+
+  var hits = 0;
+  const getHits = () => hits;
+  const hit = () => hits++;
+
+  const isSunk = () => {
+    if (hits >= length) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  return { name, length, getHits, hit, isSunk };
 }
 
 exports.createShip = createShip;
