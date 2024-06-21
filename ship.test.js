@@ -14,3 +14,11 @@ it("getsHit", () => {
   testShip.hit();
   expect(testShip.getHits()).toBe(1);
 });
+
+it("getsSunk", () => {
+  testShip.hit();
+  expect(testShip.isSunk()).toBe(false);
+  testShip.hit();
+  testShip.hit();
+  expect(testShip.isSunk()).toBe(true);
+});
