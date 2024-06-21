@@ -57,10 +57,20 @@ function createBoard() {
         (el) => el.name == ship_names[board[coords[0]][coords[1]]]
       );
       hitShip.hit();
+      checkSunk();
+      return true;
     }
   };
+  const checkSunk = () => {
+    for (const element of ships) {
+      if (element.isSunk()) {
+        return true;
+      }
+    }
+    return false;
+  };
 
-  return { getBoard, placeShip, getShips, receiveAttack };
+  return { getBoard, placeShip, getShips, receiveAttack, checkSunk };
 }
 
 exports.createBoard = createBoard;

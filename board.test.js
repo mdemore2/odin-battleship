@@ -29,3 +29,9 @@ it("receivesHit", () => {
   let hitShip = ships.find((el) => el.name == "cruiser");
   expect(hitShip.getHits()).toBe(1);
 });
+
+it("reportsEnd", () => {
+  testBoard.receiveAttack([0, 1]);
+  testBoard.receiveAttack([0, 2]);
+  expect(testBoard.checkSunk()).toBe(true);
+});
