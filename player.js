@@ -31,11 +31,13 @@ function getComputerPlacement() {
   return placement;
 }
 
-function createPlayer(placement) {
+function createPlayer(name, placement) {
+  var playerName = name;
   var playerBoard = board.createBoard();
   for (const [key, value] of Object.entries(placement)) {
     playerBoard.placeShip(key, value[0], value[1], value[2]);
   }
+  return { playerName, playerBoard };
 }
 
 exports.createPlayer = createPlayer;
